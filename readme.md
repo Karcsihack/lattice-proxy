@@ -6,6 +6,36 @@ Lattice is a lightweight, ultra-fast privacy proxy written in **Go**. It enables
 
 ---
 
+## ⚡ Instant Demo
+
+Clone the repo and run the automated demo to see Lattice anonymize real PII in seconds:
+
+```bash
+# Linux / macOS / WSL
+git clone https://github.com/Karcsihack/lattice-proxy.git
+cd lattice-proxy
+chmod +x demo.sh && ./demo.sh
+```
+
+```powershell
+# Windows (PowerShell)
+git clone https://github.com/Karcsihack/lattice-proxy.git
+cd lattice-proxy
+.\demo.ps1
+```
+
+Expected console output:
+
+```
+[LATTICE] ┌ Texto Original  : Hola, soy Juan Pérez. Mi DNI es 12345678Z y mi correo juan@email.com
+[LATTICE] └ Texto a la Nube : Hola, soy [USER_1]. Mi DNI es [ID_NUMBER_2] y mi correo [EMAIL_3]
+[LATTICE] ✓ Completado | entidades=3 | latencia_anon=91ms | latencia_total=308ms
+```
+
+> No real PII ever reaches the cloud. The upstream API only sees tokens.
+
+---
+
 ## 🚀 The Problem: The "Privacy Gap"
 
 Enterprises are blocking AI adoption because of data leakage risks. Sending customer names, emails, or financial data to third-party APIs is a compliance nightmare (GDPR, SOC2, HIPAA).
