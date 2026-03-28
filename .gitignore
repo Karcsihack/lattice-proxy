@@ -1,0 +1,13 @@
+# Compiled binaries
+*.exe
+*.exe~
+lattice
+
+# Build output
+/dist/
+
+# Environment variables (may contain secrets)
+.env
+
+# Go test cache
+/vendor/
