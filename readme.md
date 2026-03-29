@@ -1,4 +1,8 @@
-# 🛡️ Lattice Privacy Engine
+﻿# 🛡️ Lattice Privacy Engine
+
+[![Security & Quality](https://github.com/Karcsihack/lattice-proxy/actions/workflows/security.yml/badge.svg)](https://github.com/Karcsihack/lattice-proxy/actions/workflows/security.yml)
+[![Go 1.22](https://img.shields.io/badge/Go-1.22-00ADD8?logo=go)](https://go.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **High-Performance Zero-Trust Gateway for Enterprise LLM Integration.**
 
@@ -137,3 +141,4 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 - LinkedIn: [Carlos Molina Bou](https://www.linkedin.com/in/carlos-molina-bou-19b09811a/)
 - GitHub: [github.com/Karcsihack](https://github.com/Karcsihack)
+

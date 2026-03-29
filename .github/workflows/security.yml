@@ -1,0 +1,81 @@
+name: Security & Quality
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Job 1: Tests & dependency hygiene ────────────────────────────────────
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - name: Tidy dependencies
+        run: go mod tidy
+
+      - name: Verify no dependency drift
+        run: |
+          git diff --exit-code go.mod go.sum \
+            || { echo "::error::go.mod / go.sum changed after tidy. Commit the updated files."; exit 1; }
+
+      - name: Run unit tests
+        run: go test ./... -v -race -count=1
+
+  # ── Job 2: Vulnerability scan ─────────────────────────────────────────────
+  govulncheck:
+    name: Vulnerability Scan (govulncheck)
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: Scan for known vulnerabilities
+        run: govulncheck ./...
+
+  # ── Job 3: Static analysis & lint ─────────────────────────────────────────
+  lint:
+    name: Lint (golangci-lint)
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
