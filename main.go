@@ -18,13 +18,13 @@ import (
 )
 
 func main() {
-	ollamaURL   := getEnv("OLLAMA_URL",        "http://localhost:11434")
-	ollamaModel := getEnv("OLLAMA_MODEL",       "llama3")
-	openAIBase  := getEnv("OPENAI_API_BASE",    "https://api.openai.com")
-	listenAddr  := getEnv("LISTEN_ADDR",        ":8080")
+	ollamaURL := getEnv("OLLAMA_URL", "http://localhost:11434")
+	ollamaModel := getEnv("OLLAMA_MODEL", "llama3")
+	openAIBase := getEnv("OPENAI_API_BASE", "https://api.openai.com")
+	listenAddr := getEnv("LISTEN_ADDR", ":8080")
 
 	detector := ner.NewDetector(ollamaURL, ollamaModel)
-	handler  := proxy.NewHandler(detector, openAIBase)
+	handler := proxy.NewHandler(detector, openAIBase)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v1/chat/completions", handler.ChatCompletions)
@@ -66,7 +66,9 @@ func main() {
 func healthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"status":"ok","service":"lattice-proxy"}`))
+	if _, err := w.Write([]byte(`{"status":"ok","service":"lattice-proxy"}`)); err != nil {
+		log.Printf("[LATTICE] healthCheck write error: %v", err)
+	}
 }
 
 func getEnv(key, fallback string) string {

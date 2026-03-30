@@ -85,7 +85,9 @@ func handleGenerate(w http.ResponseWriter, r *http.Request) {
 
 	resp := generateResponse{Response: string(jsonBytes)}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		log.Printf("[MOCK-OLLAMA] encode error: %v", err)
+	}
 }
 
 func main() {
