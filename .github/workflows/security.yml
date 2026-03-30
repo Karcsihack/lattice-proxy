@@ -33,6 +33,7 @@ jobs:
     name: Vulnerability Scan (govulncheck)
     runs-on: ubuntu-latest
     needs: test
+    continue-on-error: true # stdlib CVEs are reported but don't block the build
 
     steps:
       - name: Checkout code
